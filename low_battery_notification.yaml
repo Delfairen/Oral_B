@@ -1,0 +1,38 @@
+blueprint:
+  name: Low Oral_B Toothbrush battery detection & execute action
+  description: Regularly test Oral-B battery sensor for crossing a certain battery level threshold and if so execute an action.
+  domain: automation
+  source_url: https://github.com/Delfairen/Oral-B/low_battery_notification.yaml
+  input:
+    toothbrush:
+      name: Oral-B
+      selector:
+        entity:
+          domain: sensor
+    batteryLevel:
+      name: Toothbrush battery level
+      default: 20
+      selector:
+        number:
+          min: 5.0
+          max: 100.0
+          unit_of_measurement: '%'
+          mode: slider
+          step: 5.0
+    time:
+      name: Time to test on
+      description: Test is run at configured time
+      default: '8:00:00'
+      selector:
+        time: {}
+    actions:
+      name: Actions
+      selector:
+        action: {}
+trigger:
+  - platform: time
+    at: !input time
+action:
+  - choose: []
+    default: !input actions
+mode: single
